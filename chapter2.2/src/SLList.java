@@ -8,40 +8,42 @@ public class SLList{
 			next = n;
 	}
 }
-	private intnode first;
+	private intnode sentinel;
 	public int size;
 
 
 	/** instanitate a empty sslist*/
 	public SLList(){
-		first = null;
+		sentinel = new intnode(1,null);
 		size = 0;
 	}
 
 
 	public SLList(int x){
-		first = new intnode(x,null);
-		size += 1;
+		sentinel = new intnode(1,null);
+		sentinel.next = new intnode(x,null);
+		size = 1;
 	}
 
 	/** Adds an item to the front of the sllist*/
 	public void addFirst(int x){
-		first = new intnode(x,first);
+		sentinel.next = new intnode(x,sentinel.next);
 		size += 1;
 	}
 	
 	/** Retrieves the front item from the list. */
 	public int getFirst() {
-	    return first.item;
+	    return sentinel.next.item;
 	}
 
 	/** Adds an iterm to the last of the list*/
 	public void addLast(int x){
-		intnode p = first;
+		intnode p = sentinel;
 		size += 1;
-		if(p == null){
-			p = new intnode(x,null);
-		}
+		// if(p == null){
+		// 	p = new intnode(x,null);
+		// 	return ;
+		// }
 
 		while(p.next != null){
 			p = p.next;
@@ -52,7 +54,7 @@ public class SLList{
 
 	/** Retrieves the last of the list*/
 	public int getLast(){
-		intnode p = first;
+		intnode p = sentinel;
 		
 		while(p.next != null){
 			p = p.next;
@@ -82,7 +84,7 @@ public class SLList{
 	L.addFirst(10);
 	L.addFirst(5);
 	L.addLast(10);
-	int x = L.getLast();
+	System.out.println(L.getLast());
 	System.out.println(L.size());
 	}
 }
