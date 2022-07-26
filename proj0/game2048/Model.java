@@ -113,7 +113,16 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
+        for(int c = 0; c < board.size(); c += 1){
+            for(int r = 0; r < board.size(); r += 1){
+                Tile t = board.tile(c,r);
+                if(board.tile(c,r) != null){
+                    board.move(c,3,t);
+                    changed = true;
+                    score += 7;
+                }
+            }
+        }
         checkGameOver();
         if (changed) {
             setChanged();
@@ -138,6 +147,10 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for(Tile t: b) {
+                if(t == null)
+                    return true;
+        }
         return false;
     }
 
@@ -148,6 +161,10 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for(Tile t : b) {
+            if (t != null && t.value() == MAX_PIECE)
+                return true;
+        }
         return false;
     }
 
@@ -159,6 +176,23 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if(emptySpaceExists(b)){
+            return true;
+        } else{
+            int[][] neighbours = {{-1,0},{1,0},{0,1},{0,-1}};
+            for(Tile t:b){
+                int c = t.col();
+                int r = t.row();
+                for(int i=0; i < b.size(); i += 1){
+                    int nc = c + neighbours[i][0];
+                    int nr = r + neighbours[i][1];
+                    if((0 <= nc && nc < b.size()) && (0 <= nr && nr <b.size())
+                            && (t.value() == b.tile(nc,nr).value())){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
