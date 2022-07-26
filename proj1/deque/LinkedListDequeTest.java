@@ -16,7 +16,7 @@ public class LinkedListDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
         /*
-        LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+        deque.LinkedListDeque<String> lld1 = new deque.LinkedListDeque<String>();
 
 		assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
 		lld1.addFirst("front");
@@ -43,7 +43,7 @@ public class LinkedListDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
         /*
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        deque.LinkedListDeque<Integer> lld1 = new deque.LinkedListDeque<Integer>();
 		// should be empty
 		assertTrue("lld1 should be empty upon initialization", lld1.isEmpty());
 
@@ -63,7 +63,7 @@ public class LinkedListDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
         /*
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        deque.LinkedListDeque<Integer> lld1 = new deque.LinkedListDeque<>();
         lld1.addFirst(3);
 
         lld1.removeLast();
@@ -85,9 +85,9 @@ public class LinkedListDequeTest {
     public void multipleParamTest() {
 
         /*
-        LinkedListDeque<String>  lld1 = new LinkedListDeque<String>();
-        LinkedListDeque<Double>  lld2 = new LinkedListDeque<Double>();
-        LinkedListDeque<Boolean> lld3 = new LinkedListDeque<Boolean>();
+        deque.LinkedListDeque<String>  lld1 = new deque.LinkedListDeque<String>();
+        deque.LinkedListDeque<Double>  lld2 = new deque.LinkedListDeque<Double>();
+        deque.LinkedListDeque<Boolean> lld3 = new deque.LinkedListDeque<Boolean>();
 
         lld1.addFirst("string");
         lld2.addFirst(3.14159);
@@ -100,12 +100,12 @@ public class LinkedListDequeTest {
     }
 
     @Test
-    /* check if null is return when removing from an empty LinkedListDeque. */
+    /* check if null is return when removing from an empty deque.LinkedListDeque. */
     public void emptyNullReturnTest() {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
         /*
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        deque.LinkedListDeque<Integer> lld1 = new deque.LinkedListDeque<Integer>();
 
         boolean passed1 = false;
         boolean passed2 = false;
@@ -121,7 +121,7 @@ public class LinkedListDequeTest {
 
         System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
         /*
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        deque.LinkedListDeque<Integer> lld1 = new deque.LinkedListDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
             lld1.addLast(i);
         }
