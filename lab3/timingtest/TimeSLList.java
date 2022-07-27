@@ -17,12 +17,34 @@ public class TimeSLList {
         }
     }
 
+    public static void options(SLList<Integer> test, int n){
+        for(int i = 1; i<= n; i += 1){
+            test.addLast(i);
+        }
+    };
+
     public static void main(String[] args) {
         timeGetLast();
     }
 
     public static void timeGetLast() {
         // TODO: YOUR CODE HERE
+        AList<Integer> Ns = new AList<>();
+        AList<Double> times = new AList<>();
+        AList<Integer> opCounts = new AList<>();
+        for(int i =1000; i <= 128000; i = i*2){
+            SLList<Integer> test = new SLList<>();
+            options(test,i);
+            Stopwatch sw = new Stopwatch();
+            for(int j =0; j <= 10000; j++){
+                test.addLast(j);
+            }
+            double timeInSeconds = sw.elapsedTime();
+            Ns.addLast(i);
+            times.addLast(timeInSeconds);
+            opCounts.addLast(10000);
+        }
+        printTimingTable(Ns,times,opCounts);
     }
 
 }
