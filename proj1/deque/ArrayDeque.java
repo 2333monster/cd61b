@@ -1,9 +1,9 @@
 package deque;
 
-public class ArrayDeque<T> {
-    private int nextFirst;
-    private int nextLast;
-    private int size;
+public class ArrayDeque<T>  implements Deque<T> {
+    protected int nextFirst;
+    protected int nextLast;
+    protected int size;
     public T[] items;
 
     /** create an empty linked list deque*/
@@ -60,6 +60,7 @@ public class ArrayDeque<T> {
     }
 
     /** Adds an item of type T to the front of the deque*/
+    @Override
     public void addFirst(T item){
         upsize();
         items[nextFirst] = item;
@@ -68,6 +69,7 @@ public class ArrayDeque<T> {
     }
 
     /** Adds an item of T to the back of the deque*/
+    @Override
     public void addLast(T item){
         upsize();
         items[nextLast] = item;
@@ -75,19 +77,14 @@ public class ArrayDeque<T> {
         size += 1;
     }
 
-    /** return true if deque is empty ,false otherwise.*/
-    public boolean isEmpty(){
-        if(size == 0){
-            return true;
-        }
-        return false;
-    }
 
+    @Override
     public int size(){
         return size;
     }
 
     /** print the item in the deque from the front to the last.*/
+    @Override
     public void printDeque(){
         int num = 0;
         while(num < size){
@@ -98,6 +95,7 @@ public class ArrayDeque<T> {
     }
 
     /** remove and return the item of the front of the deque*/
+    @Override
     public T removeFirst(){
         T t = items[plusOne(nextFirst)];
         nextFirst = plusOne(nextFirst);
@@ -106,6 +104,7 @@ public class ArrayDeque<T> {
         return t;
     }
 
+    @Override
     public T removeLast(){
         T t = items[minusOne(nextLast)];
         nextLast = minusOne(nextLast);
@@ -114,6 +113,7 @@ public class ArrayDeque<T> {
         return t;
     }
 
+    @Override
     public T get(int index){
         if(index > size - 1){
             return null;
