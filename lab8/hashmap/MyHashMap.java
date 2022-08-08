@@ -29,7 +29,7 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
     private Collection<Node>[] buckets;
     // You should probably define some more!
     private int size;
-    private final double loadFactor;
+    private  double loadFactor;
 
     /** Constructors */
     public MyHashMap() {
@@ -49,8 +49,8 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
      */
     public MyHashMap(int initialSize, double maxLoad) {
         buckets = new Collection[initialSize];
-        loadFactor = maxLoad;
-        size = 0;
+        this.loadFactor = maxLoad;
+        this.size = 0;
 
         for (int i = 0; i < initialSize; i++) {
             buckets[i] = createBucket();
@@ -103,10 +103,9 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
 
     @Override
     public void clear() {
-        for(int i = 0; i < buckets.length; i ++){
-            buckets[i] = createBucket();
-        }
+        buckets = null;
         size = 0;
+        loadFactor = 0;
     }
 
     @Override
@@ -145,11 +144,10 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
         }
         else{
             int index = Math.floorMod(key.hashCode(),buckets.length);
-            Node add = new Node(key,value);
-            buckets[index].add(add);
+            buckets[index].add(createNode(key,value));
             size += 1;
 
-            if((double)size/buckets.length >= loadFactor){
+            if(size/buckets.length > loadFactor){
                 resize(buckets.length * 2);
             }
         }
@@ -164,8 +162,8 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
             resized[i] = createBucket();
         }
 
-        for(int n = 0; n < size; n ++){
-            for(Node node:buckets[n]){
+        for(int i = 0; i < size; i ++){
+            for(Node node:buckets[i]){
                 int index = Math.floorMod(node.key.hashCode(),capacity);
                 resized[index].add(node);
             }
@@ -177,8 +175,8 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
     @Override
     public Set<K> keySet() {
         Set<K> set = new HashSet<>();
-        for(int i = 0; i < size; i++){
-            for(Node node: buckets[i]){
+        for(Collection<Node> items: buckets){
+            for(Node node: items){
                 set.add(node.key);
             }
         }
@@ -204,8 +202,8 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
         Queue<K> queue;
         public MHMapIterator() {
             queue = new LinkedList<>();
-            for(int i = 0; i <size; i++){
-                for(Node node:buckets[i]){
+            for(Collection<Node> items : buckets){
+                for(Node node: items){
                     queue.add(node.key);
                 }
             }
@@ -220,9 +218,5 @@ public class MyHashMap<K, V> implements Map61B<K,V> {
         public K next() {
             return queue.poll();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println("hi383".hashCode());
     }
 }
