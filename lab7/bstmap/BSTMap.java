@@ -1,58 +1,53 @@
 package bstmap;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
 
 public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V> {
+    private Node root;
+    private int size;
+
     private class Node {
         K key;
-        V value;
-        Node left, right;
+        V val;
+        Node left;
+        Node right;
         int N;
 
-        Node(K key, V value, int N) {
-            this.key = key;
-            this.value = value;
+        public Node(K k, V v,int N){
+            key = k;
+            val = v;
             this.N = N;
         }
     }
 
-    private Node root;
-
-    public BSTMap() {
-
-    }
-
-
+    /**
+     * Removes all of the mappings from this map.
+     */
     @Override
     public void clear() {
-        root.left = null;
-        root.right = null;
-        root = new Node(null, null, 0);
+        root = null;
     }
-
 
     @Override
     public boolean containsKey(K key) {
-        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
         return get(key) != null;
     }
 
-
     @Override
     public V get(K key) {
-        Node node = getNode(root, key);
-        return node == null ? null : node.value;
+        Node x = getNode(root,key);
+        return x == null ? null : x.val;
     }
+
 
     private Node getNode(Node x, K key) {
         if (x == null) return null;
         if (x.key == null) return null;
         else {
-            int cmp = x.key.compareTo(key);
-            if (cmp < 0) return getNode(x.right, key);
-            else if (cmp > 0) return getNode(x.left, key);
+            int n = key.compareTo(x.key);
+            if (n < 0) return getNode(x.left, key);
+            else if (n > 0) return getNode(x.right, key);
             else return x;
         }
     }
@@ -62,24 +57,22 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V> {
         return size(root);
     }
 
-    private int size(Node x) {
-        if (x == null) return 0;
+    private int size(Node x){
+        if(x == null) return 0;
         return x.N;
     }
 
     @Override
     public void put(K key, V value) {
-        root = put(root, key, value);
-
+        root = put(root,key,value);
     }
-
     private Node put(Node x, K key, V value) {
         if (x == null) return new Node(key, value, 1);
         else {
-            int cmp = x.key.compareTo(key);
-            if (cmp < 0) x.right = put(x.right, key, value);
-            else if (cmp > 0) x.left = put(x.left, key, value);
-            else x.value = value;
+            int n = key.compareTo(x.key);
+            if (n < 0) x.left = put(x.left, key, value);
+            else if (n > 0) x.right = put(x.right, key, value);
+            else x.val = value;
             x.N = 1 + size(x.left) + size(x.right);
             return x;
         }
@@ -87,43 +80,116 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V> {
 
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
-    public V remove(K key) {
-        throw new UnsupportedOperationException();
+    public V remove(K key){
+        if(!containsKey(key)){
+            return null;
+        }
+        V toremove = get(key);
+        root = remove(root, key);
+        return toremove;
+
     }
+
+    private Node remove(Node x, K key){
+        if(x == null) return null;
+
+        int cmp = key.compareTo(x.key);
+        if(cmp < 0){
+            x = remove(x.left, key);
+        }
+        else if (cmp > 0){
+            x = remove(x.right, key);
+        }
+        else{
+            if(x.right == null && x.left !=null){
+                return x.left;
+            }
+            else if(x.left == null && x.right != null){
+                return x.right;
+            }
+            else if(x.right != null){
+                Node temp = x;
+                x = min(temp.right);
+                x.right = deletemin(temp.right);
+                x.left = temp.left;
+            }
+        }
+        return x;
+    }
+
+    private Node min(Node x){
+        if(x.left == null){
+            return x;
+        }
+        return min(x.left);
+    }
+
+    private Node deletemin(Node x){
+        if(x.left == null){
+            // If x.left is null, meaning that x is the min, so replace it with
+            // x.right, whether x.right is null or not does not matter.
+            return x.right;
+        }
+        x.left = deletemin(x.left);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+
 
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if(!containsKey(key)){
+            return null;
+        }
+        if(!value.equals(get(key))){
+            return null;
+        }
+        V toremove = get(key);
+        root = remove(root,key);
+        return toremove;
     }
 
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
     @Override
     public Iterator<K> iterator() {
-        return new BSTMapIterator();
+        return new BSTIterator();
     }
 
+    public class BSTIterator implements Iterator<K>{
 
-    private class BSTMapIterator implements Iterator<K> {
-
-        LinkedList<Node> list;
-        public BSTMapIterator(){
-            list = new LinkedList<>();
-            list.addLast(root);
-        }
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
         @Override
         public boolean hasNext() {
-            return !list.isEmpty();
+            return false;
         }
 
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws java.util.NoSuchElementException if the iteration has no more elements
+         */
         @Override
         public K next() {
-            Node node = list.removeFirst();
-            list.addLast(node.left);
-            list.addLast(node.right);
-            return node.key;
+            return null;
         }
     }
+
+
+
 }
